@@ -1,6 +1,9 @@
 import sklearn as skl
 import lightgbm as lgb
+import pandas as pd
 
+upper_limit = 1e6
+lower_limit = -1e6
 
 def get_mlmodel(type):
     model = ""
@@ -17,12 +20,15 @@ def get_mlmodel(type):
 def baseclassifier(train_data, test_data, dataset, mlmodel):
     model = get_mlmodel(mlmodel)
     le = skl.preprocessing.LabelEncoder()
+    scaler = skl.preprocessing.StandardScaler()
     y = le.fit_transform(train_data['label'])
     train_data = train_data.drop('label', axis=1)
-    x = train_data
+    train_data = train_data.clip(lower=lower_limit, upper=upper_limit)
+    x = pd.DataFrame(scaler.fit_transform(train_data), columns=train_data.columns)
     ytest = le.fit_transform(test_data['label'])
     test_data = test_data.drop('label', axis=1)
-    xtest = test_data
+    test_data = test_data.clip(lower=lower_limit, upper=upper_limit)
+    xtest = pd.DataFrame(scaler.fit_transform(test_data), columns=test_data.columns)
     model.fit(x, y)
     ypred = model.predict(xtest)
 

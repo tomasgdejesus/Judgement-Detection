@@ -1,119 +1,75 @@
 Accuracy for Logistic Regression for helpsteer2: 0.8187951807228916
-F1 score for Logistic Regression for helpsteer2: 0.8212927756653993
-Report for helpsteer2:               precision    recall  f1-score   support
-
-           0       0.83      0.80      0.82      5190
-           1       0.81      0.83      0.82      5185
-
-    accuracy                           0.82     10375
-   macro avg       0.82      0.82      0.82     10375
-weighted avg       0.82      0.82      0.82     10375
-
-Accuracy for Logistic Regression for helpsteer3: 0.5347222222222222
-F1 score for Logistic Regression for helpsteer3: 0.5361028684470821
-Report for helpsteer3:               precision    recall  f1-score   support
-
-           0       0.54      0.53      0.53     10085
-           1       0.53      0.54      0.54     10075
-
-    accuracy                           0.53     20160
-   macro avg       0.53      0.53      0.53     20160
-weighted avg       0.53      0.53      0.53     20160
-
-Accuracy for Logistic Regression for antique: 0.5309479396303205
-F1 score for Logistic Regression for antique: 0.5474476439790575
-Report for antique:               precision    recall  f1-score   support
-
-           0       0.53      0.49      0.51     14745
-           1       0.53      0.57      0.55     14740
-
-    accuracy                           0.53     29485
-   macro avg       0.53      0.53      0.53     29485
-weighted avg       0.53      0.53      0.53     29485
-
-Accuracy for Logistic Regression for neurips: 0.7511729222520107
-F1 score for Logistic Regression for neurips: 0.7260653016048699
-Report for neurips:               precision    recall  f1-score   support
-
-           0       0.71      0.84      0.77      2984
-           1       0.81      0.66      0.73      2984
-
-    accuracy                           0.75      5968
-   macro avg       0.76      0.75      0.75      5968
-weighted avg       0.76      0.75      0.75      5968
-
-Accuracy for Logistic Regression for helpsteer2: 0.8187951807228916
-F1 score for Logistic Regression for helpsteer2: 0.8212927756653993
+F1 score for Logistic Regression for helpsteer2: 0.8221381267738883
 Report for helpsteer2 for Logistic Regression:               precision    recall  f1-score   support
 
-           0       0.83      0.80      0.82      5190
-           1       0.81      0.83      0.82      5185
+           0       0.83      0.80      0.82      1038
+           1       0.81      0.84      0.82      1037
 
-    accuracy                           0.82     10375
-   macro avg       0.82      0.82      0.82     10375
-weighted avg       0.82      0.82      0.82     10375
+    accuracy                           0.82      2075
+   macro avg       0.82      0.82      0.82      2075
+weighted avg       0.82      0.82      0.82      2075
 
-Accuracy for Random Forest for helpsteer2: 0.8804819277108433
-F1 score for Random Forest for helpsteer2: 0.8761238761238761
+Accuracy for Random Forest for helpsteer2: 0.88
+F1 score for Random Forest for helpsteer2: 0.8758104738154614
 Report for helpsteer2 for Random Forest:               precision    recall  f1-score   support
 
-           0       0.86      0.92      0.88      5190
-           1       0.91      0.85      0.88      5185
+           0       0.86      0.91      0.88      1038
+           1       0.91      0.85      0.88      1037
 
-    accuracy                           0.88     10375
-   macro avg       0.88      0.88      0.88     10375
-weighted avg       0.88      0.88      0.88     10375
+    accuracy                           0.88      2075
+   macro avg       0.88      0.88      0.88      2075
+weighted avg       0.88      0.88      0.88      2075
 
 Accuracy for Logistic Regression for helpsteer3: 0.5347222222222222
 F1 score for Logistic Regression for helpsteer3: 0.5361028684470821
 Report for helpsteer3 for Logistic Regression:               precision    recall  f1-score   support
 
-           0       0.54      0.53      0.53     10085
-           1       0.53      0.54      0.54     10075
+           0       0.54      0.53      0.53      2017
+           1       0.53      0.54      0.54      2015
 
-    accuracy                           0.53     20160
-   macro avg       0.53      0.53      0.53     20160
-weighted avg       0.53      0.53      0.53     20160
+    accuracy                           0.53      4032
+   macro avg       0.53      0.53      0.53      4032
+weighted avg       0.53      0.53      0.53      4032
 
-Accuracy for Random Forest for helpsteer3: 0.5543154761904762
-F1 score for Random Forest for helpsteer3: 0.6720204416864392
+Accuracy for Random Forest for helpsteer3: 0.5086805555555556
+F1 score for Random Forest for helpsteer3: 0.5764378875347445
 Report for helpsteer3 for Random Forest:               precision    recall  f1-score   support
 
-           0       0.69      0.20      0.30     10085
-           1       0.53      0.91      0.67     10075
+           0       0.51      0.35      0.42      2017
+           1       0.51      0.67      0.58      2015
 
-    accuracy                           0.55     20160
-   macro avg       0.61      0.55      0.49     20160
-weighted avg       0.61      0.55      0.49     20160
+    accuracy                           0.51      4032
+   macro avg       0.51      0.51      0.50      4032
+weighted avg       0.51      0.51      0.50      4032
 
-Accuracy for Logistic Regression for antique: 0.5309479396303205
-F1 score for Logistic Regression for antique: 0.5474476439790575
+Accuracy for Logistic Regression for antique: 0.5314566728845176
+F1 score for Logistic Regression for antique: 0.5481602616516762
 Report for antique for Logistic Regression:               precision    recall  f1-score   support
 
-           0       0.53      0.49      0.51     14745
-           1       0.53      0.57      0.55     14740
+           0       0.53      0.49      0.51      2949
+           1       0.53      0.57      0.55      2948
 
-    accuracy                           0.53     29485
-   macro avg       0.53      0.53      0.53     29485
-weighted avg       0.53      0.53      0.53     29485
+    accuracy                           0.53      5897
+   macro avg       0.53      0.53      0.53      5897
+weighted avg       0.53      0.53      0.53      5897
 
 Accuracy for Random Forest for antique: 0.5314566728845176
 F1 score for Random Forest for antique: 0.5481602616516762
 Report for antique for Random Forest:               precision    recall  f1-score   support
 
-           0       0.53      0.49      0.51     14745
-           1       0.53      0.57      0.55     14740
+           0       0.53      0.49      0.51      2949
+           1       0.53      0.57      0.55      2948
 
-    accuracy                           0.53     29485
-   macro avg       0.53      0.53      0.53     29485
-weighted avg       0.53      0.53      0.53     29485
+    accuracy                           0.53      5897
+   macro avg       0.53      0.53      0.53      5897
+weighted avg       0.53      0.53      0.53      5897
 
-Accuracy for Logistic Regression for neurips: 0.7511729222520107
-F1 score for Logistic Regression for neurips: 0.7260653016048699
+Accuracy for Logistic Regression for neurips: 0.7493297587131368
+F1 score for Logistic Regression for neurips: 0.7234750462107209
 Report for neurips for Logistic Regression:               precision    recall  f1-score   support
 
            0       0.71      0.84      0.77      2984
-           1       0.81      0.66      0.73      2984
+           1       0.81      0.66      0.72      2984
 
     accuracy                           0.75      5968
    macro avg       0.76      0.75      0.75      5968
@@ -129,4 +85,92 @@ Report for neurips for Random Forest:               precision    recall  f1-scor
     accuracy                           0.87      5968
    macro avg       0.88      0.87      0.87      5968
 weighted avg       0.88      0.87      0.87      5968
+
+Accuracy for Logistic Regression for helpsteer2: 0.8594881699661999
+F1 score for Logistic Regression for helpsteer2: 0.86002886002886
+Report for helpsteer2 for Logistic Regression:               precision    recall  f1-score   support
+
+           0       0.86      0.86      0.86      1036
+           1       0.86      0.86      0.86      1035
+
+    accuracy                           0.86      2071
+   macro avg       0.86      0.86      0.86      2071
+weighted avg       0.86      0.86      0.86      2071
+
+Accuracy for Random Forest for helpsteer2: 0.9058425881216804
+F1 score for Random Forest for helpsteer2: 0.9046454767726161
+Report for helpsteer2 for Random Forest:               precision    recall  f1-score   support
+
+           0       0.90      0.92      0.91      1036
+           1       0.92      0.89      0.90      1035
+
+    accuracy                           0.91      2071
+   macro avg       0.91      0.91      0.91      2071
+weighted avg       0.91      0.91      0.91      2071
+
+Accuracy for Logistic Regression for helpsteer3: 0.5426356589147286
+F1 score for Logistic Regression for helpsteer3: 0.5635018495684341
+Report for helpsteer3 for Logistic Regression:               precision    recall  f1-score   support
+
+           0       0.55      0.49      0.52      2323
+           1       0.54      0.59      0.56      2321
+
+    accuracy                           0.54      4644
+   macro avg       0.54      0.54      0.54      4644
+weighted avg       0.54      0.54      0.54      4644
+
+Accuracy for Random Forest for helpsteer3: 0.5635228251507322
+F1 score for Random Forest for helpsteer3: 0.572813487881981
+Report for helpsteer3 for Random Forest:               precision    recall  f1-score   support
+
+           0       0.57      0.54      0.55      2323
+           1       0.56      0.59      0.57      2321
+
+    accuracy                           0.56      4644
+   macro avg       0.56      0.56      0.56      4644
+weighted avg       0.56      0.56      0.56      4644
+
+Accuracy for Logistic Regression for antique: 0.5457167090754877
+F1 score for Logistic Regression for antique: 0.5482456140350878
+Report for antique for Logistic Regression:               precision    recall  f1-score   support
+
+           0       0.55      0.54      0.54      2948
+           1       0.55      0.55      0.55      2947
+
+    accuracy                           0.55      5895
+   macro avg       0.55      0.55      0.55      5895
+weighted avg       0.55      0.55      0.55      5895
+
+Accuracy for Random Forest for antique: 0.6256149279050043
+F1 score for Random Forest for antique: 0.6590452649467017
+Report for antique for Random Forest:               precision    recall  f1-score   support
+
+           0       0.66      0.53      0.58      2948
+           1       0.60      0.72      0.66      2947
+
+    accuracy                           0.63      5895
+   macro avg       0.63      0.63      0.62      5895
+weighted avg       0.63      0.63      0.62      5895
+
+Accuracy for Logistic Regression for neurips: 0.7407650917445059
+F1 score for Logistic Regression for neurips: 0.7153443368435028
+Report for neurips for Logistic Regression:               precision    recall  f1-score   support
+
+           0       0.70      0.83      0.76    132324
+           1       0.79      0.65      0.72    132324
+
+    accuracy                           0.74    264648
+   macro avg       0.75      0.74      0.74    264648
+weighted avg       0.75      0.74      0.74    264648
+
+Accuracy for Random Forest for neurips: 0.8580076176657295
+F1 score for Random Forest for neurips: 0.8410715343038156
+Report for neurips for Random Forest:               precision    recall  f1-score   support
+
+           0       0.80      0.96      0.87    132324
+           1       0.95      0.75      0.84    132324
+
+    accuracy                           0.86    264648
+   macro avg       0.88      0.86      0.86    264648
+weighted avg       0.88      0.86      0.86    264648
 

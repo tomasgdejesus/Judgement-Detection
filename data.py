@@ -5,6 +5,26 @@ import os
 import pandas as pd
 import sklearn as skl
 
+# def removeDuplicates(df):
+#     for i in range(len(df)):
+#         dup = df[i].duplicated().sum()
+#         print(f"Number of duplicates for {i+1} dataset: {dup}")
+#         if dup > 0:
+#             df[i] = df[i].drop_duplicates()
+    
+#     return df
+
+def clean_text(text_list):
+    # If the content is a list of strings, join them first
+    if isinstance(text_list, list):
+        text = "".join(text_list)
+    else:
+        text = str(text_list)
+    # Remove newlines, spaces, tabs
+    text = text.replace("\n", "").replace(" ", "").replace("\t", "")
+    return text
+
+
 def getdata(path):
     data = []
 
@@ -44,7 +64,7 @@ def builddata(type):
 
     for subfolder in os.listdir(path_dataset):
         subfolder_path = os.path.join(path_dataset, subfolder)
-        if os.path.isdir(subfolder_path) and type in subfolder.lower():
+        if os.path.isdir(subfolder_path) and type in subfolder.lower() and '_1_grouped' in subfolder.lower():
             data = getdata(subfolder_path)
             df = pd.DataFrame(data)
             if 'helpsteer2' in subfolder.lower():
@@ -64,9 +84,13 @@ def builddata(type):
                 temp = df[['rating', 'confidence', 'soundness', 'presentation', 'contribution', 'label']]
                 neurips_data = pd.concat([neurips_data, temp], ignore_index=True)
                 neurips_data_comp = pd.concat([neurips_data_comp, df], ignore_index=True)
-    
+
     dfs = [helpsteer2_data, helpsteer3_data, antique_data, neurips_data]
     comp_dfs = [helpsteer2_data_comp, helpsteer3_data_comp, antique_data_comp, neurips_data_comp]
+
+    # # Remove duplicates
+    # dfs = removeDuplicates(dfs)
+    # comp_dfs = removeDuplicates(comp_dfs)
 
     return dfs, comp_dfs
 
@@ -182,7 +206,7 @@ def getfeature_data(type):
                                     "soundness_score": feats.get("soundness score", 0),
                                     "presentation_score": feats.get("presentation score", 0),
                                     "contribution_score": feats.get("contribution score", 0),
-                                    "content": tuple(x["content"])
+                                    "content": x["content"]
                                 })
                         
                         df_llm = pd.DataFrame(llm_rows)
@@ -197,6 +221,9 @@ def getfeature_data(type):
     temp = antique_df.merge(antique_df_llm, on=["query", "docs"])
     antique_df = temp
 
+    # Clean the text of content column
+    neurips_df["content"] = neurips_df["content"].apply(clean_text)
+    neurips_df_llm["content"] = neurips_df_llm["content"].apply(clean_text)
     temp = neurips_df.merge(neurips_df_llm, on="content")
     neurips_df = temp
 
@@ -210,26 +237,27 @@ def getcombine_features(type):
     
     # helpsteer2
     temp = df_comp[0].merge(feature_dfs[0], on=["prompt", "response"])
-    temp = temp.drop(columns=["prompt", "response"], axis=1)
+    temp = temp.drop(columns=["prompt", "response", "group_id"], axis=1)
     df_all.append(temp)
 
     # helpsteer3
     temp = df_comp[1].merge(feature_dfs[1], on=["response1", "response2"])
-    temp = temp.drop(columns=["response1", "response2"], axis=1)
+    temp = temp.drop(columns=["response1", "response2", "context", "group_id"], axis=1)
     df_all.append(temp)
 
     # antique
     df_comp[2]["docs"] = df_comp[2]["docs"].apply(tuple)
-    temp = df_comp[2].merge(feature_dfs[2], on=["query", "docs"])
-    temp = temp.drop(columns=["query", "docs"], axis=1)
+    temp_comp= feature_dfs[2].drop(columns=["label", "ranking"], axis=1)
+    temp = df_comp[2].merge(temp_comp, on=["docs", "query"])
+    temp = temp.drop(columns=["query", "docs", "group_id"], axis=1)
+    temp = expand_ranking_column(temp, "ranking")
     df_all.append(temp)
 
     # neurips
-    df_comp[3]["content"] = df_comp[3]["content"].apply(tuple)
+    df_comp[3]["content"] = df_comp[3]["content"].apply(clean_text)
     temp = df_comp[3].merge(feature_dfs[3], on="content")
-    temp = temp.drop(columns=["content"], axis=1)
+    temp = temp.drop(columns=["content", "group_id"], axis=1)
     df_all.append(temp)
-
     return df_all
 
 
