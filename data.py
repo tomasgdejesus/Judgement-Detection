@@ -5,15 +5,52 @@ import os
 import pandas as pd
 import sklearn as skl
 
-# def removeDuplicates(df):
-#     for i in range(len(df)):
-#         dup = df[i].duplicated().sum()
-#         print(f"Number of duplicates for {i+1} dataset: {dup}")
-#         if dup > 0:
-#             df[i] = df[i].drop_duplicates()
-    
-#     return df
+HELPSTEER2_COLUMNS = ['helpfulness', 'correctness', 'coherence', 'complexity', 'verbosity', 'label']
+HELPSTEER3_COLUMNS = ['score', 'label']
+ANTIQUE_COLUMNS = ['ranking', 'label']
+NEURIPS_COLUMNS = ['rating', 'confidence', 'soundness', 'presentation', 'contribution', 'label']
 
+def removeNull(df):
+    # Check if any null values are there in dataframes
+    
+    # helpsteer2 dataset
+    num_rows_with_nan = df[0].isnull().any(axis=1).sum()
+    print(f"Helpsteer2 dataset null values: {num_rows_with_nan}")
+    if num_rows_with_nan > 0:
+        df[0] = df[0].dropna()
+        print(f"Num of records after removing null values for Helpsteer2 dataset: {df[0].shape[0]}")
+    
+    # helpsteer3 dataset
+    num_rows_with_nan = df[1].isnull().any(axis=1).sum()
+    print(f"Helpsteer3 dataset null values: {num_rows_with_nan}")
+    if num_rows_with_nan > 0:
+        df[1] = df[1].dropna()
+        print(f"Num of records after removing null values for Helpsteer3 dataset: {df[1].shape[0]}")
+    
+    # antique dataset
+    num_rows_with_nan = df[2].isnull().any(axis=1).sum()
+    print(f"Antique dataset null values: {num_rows_with_nan}")
+    if num_rows_with_nan > 0:
+        df[2] = df[2].dropna()
+        print(f"Num of records after removing null values for Antique dataset: {df[2].shape[0]}")
+
+    # neurips dataset
+    num_rows_with_nan = df[3].isnull().any(axis=1).sum()
+    print(f"Neurips dataset null values: {num_rows_with_nan}")
+    if num_rows_with_nan > 0:
+        df[3] = df[3].dropna()
+        print(f"Num of records after removing null values for Neurips dataset: {df[3].shape[0]}")
+    
+    return df
+
+def write_to_csv(df):
+    # Generate csv files
+    df[0].to_csv('helpsteer2.csv', index=False)
+    df[1].to_csv('helpsteer3.csv', index=False)
+    df[2].to_csv('antique.csv', index=False)
+    df[3].to_csv('neurips.csv', index=False) 
+
+# Clean the text
 def clean_text(text_list):
     # If the content is a list of strings, join them first
     if isinstance(text_list, list):
@@ -24,16 +61,23 @@ def clean_text(text_list):
     text = text.replace("\n", "").replace(" ", "").replace("\t", "")
     return text
 
-
-def getdata(path):
+# Read the file and load the data
+def readFile(path, i):
     data = []
 
     for file in os.listdir(path):
-        if 'grouped' in file.lower():
-            filepath = os.path.join(path, file)
-            with open (filepath, 'r') as f:
-                read = json.load(f)
-                data.extend(read)
+        if i==1:
+            if 'grouped' in file.lower():
+                filepath = os.path.join(path, file)
+                with open (filepath, 'r') as f:
+                    read = json.load(f)
+                    data.extend(read)
+        else:
+            if 'groups' in file.lower():
+                filepath = os.path.join(path, file)
+                with open (filepath, 'r') as f:
+                    read = json.load(f)
+                    data.extend(read)
 
     return data
 
@@ -50,7 +94,7 @@ def expand_ranking_column(df, col_name):
     return df
 
 
-def builddata(type):
+def getrawdata(type, i):
     path_dataset = 'data/dataset_detection'
     helpsteer2_data = pd.DataFrame()
     helpsteer3_data = pd.DataFrame()
@@ -64,33 +108,37 @@ def builddata(type):
 
     for subfolder in os.listdir(path_dataset):
         subfolder_path = os.path.join(path_dataset, subfolder)
-        if os.path.isdir(subfolder_path) and type in subfolder.lower() and '_1_grouped' in subfolder.lower():
-            data = getdata(subfolder_path)
+        if os.path.isdir(subfolder_path) and type in subfolder.lower() and f'_{i}_grouped' in subfolder.lower():
+            data = readFile(subfolder_path, i)
             df = pd.DataFrame(data)
             if 'helpsteer2' in subfolder.lower():
-                temp = df[['helpfulness', 'correctness', 'coherence', 'complexity', 'verbosity', 'label']]
-                helpsteer2_data = pd.concat([helpsteer2_data, temp], ignore_index=True)
+                if i==1:
+                    temp = df[HELPSTEER2_COLUMNS]
+                    helpsteer2_data = pd.concat([helpsteer2_data, temp], ignore_index=True)
                 helpsteer2_data_comp = pd.concat([helpsteer2_data_comp, df], ignore_index=True)
             elif 'helpsteer3' in subfolder.lower():
-                temp = df[['score', 'label']]
-                helpsteer3_data = pd.concat([helpsteer3_data, temp], ignore_index=True)
+                if i==1:
+                    temp = df[HELPSTEER3_COLUMNS]
+                    helpsteer3_data = pd.concat([helpsteer3_data, temp], ignore_index=True)
                 helpsteer3_data_comp = pd.concat([helpsteer3_data_comp, df], ignore_index=True)
             elif 'antique' in subfolder.lower():
-                temp = df[['ranking', 'label']]
-                temp = expand_ranking_column(temp, 'ranking')
-                antique_data = pd.concat([antique_data, temp], ignore_index=True)
+                if i==1:
+                    temp = df[ANTIQUE_COLUMNS]
+                    temp = expand_ranking_column(temp, 'ranking')
+                    antique_data = pd.concat([antique_data, temp], ignore_index=True)
                 antique_data_comp = pd.concat([antique_data_comp, df], ignore_index=True)
             elif 'neurips' in subfolder.lower():
-                temp = df[['rating', 'confidence', 'soundness', 'presentation', 'contribution', 'label']]
-                neurips_data = pd.concat([neurips_data, temp], ignore_index=True)
+                if i==1:
+                    temp = df[NEURIPS_COLUMNS]
+                    neurips_data = pd.concat([neurips_data, temp], ignore_index=True)
                 neurips_data_comp = pd.concat([neurips_data_comp, df], ignore_index=True)
 
     dfs = [helpsteer2_data, helpsteer3_data, antique_data, neurips_data]
     comp_dfs = [helpsteer2_data_comp, helpsteer3_data_comp, antique_data_comp, neurips_data_comp]
 
-    # # Remove duplicates
-    # dfs = removeDuplicates(dfs)
-    # comp_dfs = removeDuplicates(comp_dfs)
+    # Remove null values
+    dfs = removeNull(dfs)
+    comp_dfs = removeNull(comp_dfs)
 
     return dfs, comp_dfs
 
@@ -233,7 +281,7 @@ def getfeature_data(type):
 def getcombine_features(type):
     df_all = []
     feature_dfs = getfeature_data(type)
-    raw_dfs, df_comp = builddata(type)
+    raw_dfs, df_comp = getrawdata(type, 1)
     
     # helpsteer2
     temp = df_comp[0].merge(feature_dfs[0], on=["prompt", "response"])
@@ -258,6 +306,9 @@ def getcombine_features(type):
     temp = df_comp[3].merge(feature_dfs[3], on="content")
     temp = temp.drop(columns=["content", "group_id"], axis=1)
     df_all.append(temp)
+    
+    # remove null values 
+    df_all = removeNull(df_all)
     return df_all
 
 

@@ -5,62 +5,35 @@ import mlmodel as model
 if __name__ == "__main__":
     print("hi")
 
-    # Build the dataset wiht only judgement decisions
-    train_data, train_data_comp = data.builddata('train')
-    test_data, test_data_comp = data.builddata('test')
+    # Build the dataset with only judgement decisions
+    train_data, train_data_comp = data.getrawdata('train', 1)
+    test_data, test_data_comp = data.getrawdata('test', 1)
 
-
-    train_data[0].to_csv('helpsteer2.csv', index=False)
-    train_data[1].to_csv('helpsteer3.csv', index=False)
-    train_data[2].to_csv('antique.csv', index=False)
-    train_data[3].to_csv('neurips.csv', index=False)
+    # For debug purpose
+    # Generate csv files 
+    data.write_to_csv(train_data)
     
     # Base classifier
-    model.getreport(train_data[0], test_data[0], 'helpsteer2')
-    model.getreport(train_data[1], test_data[1], 'helpsteer3')
-    model.getreport(train_data[2], test_data[2], 'antique')
-    model.getreport(train_data[3], test_data[3], 'neurips')
+    with open('metrics.txt', 'a') as f:
+        f.write("\n Judgement Decision \n")
+    m_helpsteer2lr, m_helpsteer2rf, scaler_helpsteer2 = model.getreport(train_data[0], test_data[0], 'helpsteer2')
+    m_helpsteer3lr, m_helpsteer3rf, scaler_helpsteer3 = model.getreport(train_data[1], test_data[1], 'helpsteer3')
+    m_antiquelr, m_antiquerf, scaler_antique = model.getreport(train_data[2], test_data[2], 'antique')
+    m_neuripslr, m_neuripsrf, scaler_neurips = model.getreport(train_data[3], test_data[3], 'neurips')
+    modelslr = [m_helpsteer2lr, m_helpsteer3lr, m_antiquelr, m_neuripslr]
+    modelsrf = [m_helpsteer2rf, m_helpsteer3rf, m_antiquerf, m_neuripsrf]
+    scaler = [scaler_helpsteer2, scaler_helpsteer3, scaler_antique, scaler_neurips]
 
-    # augmented features (judgement + llm + linguistic)
+    # Build the dataset with augmented features (judgement + llm + linguistic)
     train_data = data.getcombine_features('train')
     test_data = data.getcombine_features('test')
 
-    # Check if any null values are there in dataframes
-    
-    # helpsteer2 dataset
-    num_rows_with_nan = train_data[0].isnull().any(axis=1).sum()
-    print(f"Helpsteer2 dataset null values: {num_rows_with_nan}")
-    if num_rows_with_nan > 0:
-        train_data[0] = train_data[0].dropna()
-        print(f"Num of records after removing null values for Helpsteer2 dataset: {train_data[0].shape[0]}")
-    
-    # helpsteer3 dataset
-    num_rows_with_nan = train_data[1].isnull().any(axis=1).sum()
-    print(f"Helpsteer3 dataset null values: {num_rows_with_nan}")
-    if num_rows_with_nan > 0:
-        train_data[1] = train_data[1].dropna()
-        print(f"Num of records after removing null values for Helpsteer3 dataset: {train_data[1].shape[0]}")
-    
-    # antique dataset
-    num_rows_with_nan = train_data[2].isnull().any(axis=1).sum()
-    print(f"Antique dataset null values: {num_rows_with_nan}")
-    if num_rows_with_nan > 0:
-        train_data[2] = train_data[2].dropna()
-        print(f"Num of records after removing null values for Antique dataset: {train_data[2].shape[0]}")
-    
-    # neurips dataset
-    num_rows_with_nan = train_data[3].isnull().any(axis=1).sum()
-    print(f"Neurips dataset null values: {num_rows_with_nan}")
-    if num_rows_with_nan > 0:
-        train_data[3] = train_data[3].dropna()
-        print(f"Num of records after removing null values for Neurips dataset: {train_data[3].shape[0]}")
-    
-    # Generate csv files
-    train_data[0].to_csv('helpsteer2_combine.csv', index=False)
-    train_data[1].to_csv('helpsteer3_combine.csv', index=False)
-    train_data[2].to_csv('antique_combine.csv', index=False)
-    train_data[3].to_csv('neurips_combine.csv', index=False)
+    # For debug purpose
+    # Generate csv files 
+    data.write_to_csv(train_data)
 
+    with open('metrics.txt', 'a') as f:
+        f.write("\n Augmented Features \n")
     # Base classifier
     model.getreport(train_data[0], test_data[0], 'helpsteer2')
     model.getreport(train_data[1], test_data[1], 'helpsteer3')
@@ -68,5 +41,12 @@ if __name__ == "__main__":
     model.getreport(train_data[3], test_data[3], 'neurips')
     
 
-    
+    # Group Detection
+    k = [2, 4, 8 ,16]
+    for i in range(len(k)):
+        # train_data, train_data_comp = data.getrawdata('train', k[i])
+        test_data, test_data_comp = data.getrawdata('test', k[i])
+        with open('metrics.txt', 'a') as f:
+            f.write(f"\n Group size of {k[i]} \n")
+        model.predict(test_data_comp, modelslr, modelsrf, scaler)
                 
