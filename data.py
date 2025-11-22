@@ -69,13 +69,13 @@ def readFile(path, i):
         if i==1:
             if 'grouped' in file.lower():
                 filepath = os.path.join(path, file)
-                with open (filepath, 'r') as f:
+                with open (filepath, 'r', encoding='utf-8') as f:
                     read = json.load(f)
                     data.extend(read)
         else:
             if 'groups' in file.lower():
                 filepath = os.path.join(path, file)
-                with open (filepath, 'r') as f:
+                with open (filepath, 'r', encoding='utf-8') as f:
                     read = json.load(f)
                     data.extend(read)
 
@@ -311,6 +311,34 @@ def getcombine_features(type):
     df_all = removeNull(df_all)
     return df_all
 
+def get_binarized_rating_scale(df, dataset):
+    df_ret = df.copy()
+    if dataset == 'helpsteer2':
+        for column in HELPSTEER2_COLUMNS:
+            if column == 'label':
+                continue
+            df_ret[column] = (df_ret[column] >= 3).astype(int)
+    elif dataset == 'helpsteer3':
+        for column in HELPSTEER3_COLUMNS:
+            if column == 'label':
+                continue
+            df_ret[column] = (df_ret[column] > 0).astype(int)
+    else:
+        raise ValueError(f"Invalid dataset: {dataset}")
+    
+    return df_ret
 
-            
-        
+def get_dimensionized_features(df, dataset, size):
+    column_target = []
+    if dataset == 'helpsteer2':
+        column_target = HELPSTEER2_COLUMNS
+    elif dataset == 'neurips':
+        column_target = NEURIPS_COLUMNS
+    else:
+        raise ValueError(f"Invalid dataset: {dataset}")
+    
+    columns = []
+    for i in range(size):
+        columns.append(column_target[i])
+
+    return df[columns + ['label']]
