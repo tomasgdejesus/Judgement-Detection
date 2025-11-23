@@ -43,12 +43,12 @@ def removeNull(df):
     
     return df
 
-def write_to_csv(df):
+def write_to_csv(df, str=''):
     # Generate csv files
-    df[0].to_csv('helpsteer2.csv', index=False)
-    df[1].to_csv('helpsteer3.csv', index=False)
-    df[2].to_csv('antique.csv', index=False)
-    df[3].to_csv('neurips.csv', index=False) 
+    df[0].to_csv(f'helpsteer2{str}.csv', index=False)
+    df[1].to_csv(f'helpsteer3{str}.csv', index=False)
+    df[2].to_csv(f'antique{str}.csv', index=False)
+    df[3].to_csv(f'neurips{str}.csv', index=False) 
 
 # Clean the text
 def clean_text(text_list):
@@ -61,12 +61,17 @@ def clean_text(text_list):
     text = text.replace("\n", "").replace(" ", "").replace("\t", "")
     return text
 
+# Function to normalize ranking
+def normalize_ranking(ranks):
+    min_val = min(ranks)
+    return [r - min_val for r in ranks]
+
 # Read the file and load the data
-def readFile(path, i):
+def readFile(path, isJudgement):
     data = []
 
     for file in os.listdir(path):
-        if i==1:
+        if isJudgement:
             if 'grouped' in file.lower():
                 filepath = os.path.join(path, file)
                 with open (filepath, 'r') as f:
@@ -87,14 +92,14 @@ def expand_ranking_column(df, col_name):
     
     # Expand list into separate columns
     new_cols = pd.DataFrame(df[col_name].tolist(), index=df.index)
-    new_cols.columns = [f"ranking_{i}" for i in range(new_cols.shape[1])]
+    new_cols.columns = [f"{col_name}_{i}" for i in range(new_cols.shape[1])]
     
     # Drop original column and concatenate new columns
     df = pd.concat([df.drop(columns=[col_name]), new_cols], axis=1)
     return df
 
 
-def getrawdata(type, i):
+def getrawdata(type, isJudgement, grpSize):
     path_dataset = 'data/dataset_detection'
     helpsteer2_data = pd.DataFrame()
     helpsteer3_data = pd.DataFrame()
@@ -108,27 +113,28 @@ def getrawdata(type, i):
 
     for subfolder in os.listdir(path_dataset):
         subfolder_path = os.path.join(path_dataset, subfolder)
-        if os.path.isdir(subfolder_path) and type in subfolder.lower() and f'_{i}_grouped' in subfolder.lower():
-            data = readFile(subfolder_path, i)
+        if os.path.isdir(subfolder_path) and type in subfolder.lower() and f'{grpSize}_grouped' in subfolder.lower():
+            data = readFile(subfolder_path, isJudgement)
             df = pd.DataFrame(data)
             if 'helpsteer2' in subfolder.lower():
-                if i==1:
+                if isJudgement:
                     temp = df[HELPSTEER2_COLUMNS]
                     helpsteer2_data = pd.concat([helpsteer2_data, temp], ignore_index=True)
                 helpsteer2_data_comp = pd.concat([helpsteer2_data_comp, df], ignore_index=True)
             elif 'helpsteer3' in subfolder.lower():
-                if i==1:
+                if isJudgement:
                     temp = df[HELPSTEER3_COLUMNS]
                     helpsteer3_data = pd.concat([helpsteer3_data, temp], ignore_index=True)
                 helpsteer3_data_comp = pd.concat([helpsteer3_data_comp, df], ignore_index=True)
             elif 'antique' in subfolder.lower():
-                if i==1:
+                if isJudgement:
                     temp = df[ANTIQUE_COLUMNS]
+                    df['ranking'] = df['ranking'].apply(normalize_ranking)
                     temp = expand_ranking_column(temp, 'ranking')
                     antique_data = pd.concat([antique_data, temp], ignore_index=True)
                 antique_data_comp = pd.concat([antique_data_comp, df], ignore_index=True)
             elif 'neurips' in subfolder.lower():
-                if i==1:
+                if isJudgement:
                     temp = df[NEURIPS_COLUMNS]
                     neurips_data = pd.concat([neurips_data, temp], ignore_index=True)
                 neurips_data_comp = pd.concat([neurips_data_comp, df], ignore_index=True)
@@ -162,17 +168,21 @@ def getfeature_data(type):
                     filepath = os.path.join(subfolder_path, file)
                     if 'helpsteer2' in file.lower() and type in file.lower():
                         data = pd.read_csv(filepath)
+                        data = data.loc[:, ~data.columns.str.contains("noun_verb_ratio")]
                         helpsteer2_df = pd.concat([helpsteer2_df, data], ignore_index=True)
                     elif 'helpsteer3' in file.lower() and type in file.lower():
                         data = pd.read_csv(filepath)
+                        data = data.loc[:, ~data.columns.str.contains("noun_verb_ratio")]
                         helpsteer3_df = pd.concat([helpsteer3_df, data], ignore_index=True)
                     elif 'antique' in file.lower() and type in file.lower():
                         data = pd.read_csv(filepath)
                         data["docs"] = data[["response1", "response2", "response3"]].apply(lambda row: tuple([x for x in row if pd.notna(x)]), axis=1)
                         data = data.drop(columns=["response1", "response2", "response3"], axis=1)
+                        data = data.loc[:, ~data.columns.str.contains("noun_verb_ratio")]
                         antique_df = pd.concat([antique_df, data], ignore_index=True)
                     elif 'neurips' in file.lower() and type in file.lower():
                         data = pd.read_csv(filepath)
+                        data = data.loc[:, ~data.columns.str.contains("noun_verb_ratio")]
                         neurips_df = pd.concat([neurips_df, data], ignore_index=True)
             if 'llm' in subfolder.lower():
                 for file in os.listdir(subfolder_path):
@@ -235,11 +245,14 @@ def getfeature_data(type):
                                     "r1_score": feats["Response1 Score"],
                                     "r2_score": feats["Response2 Score"],
                                     "r3_score": feats["Response3 Score"],
+                                    "llm_ranking": feats["Ranking"],
                                     "query": x["query"],
                                     "docs": tuple(x["docs"])
                                 })
 
                         df_llm = pd.DataFrame(llm_rows)
+                        df_llm['llm_ranking'] = df_llm['llm_ranking'].apply(normalize_ranking)
+                        df_llm = expand_ranking_column(df_llm, "llm_ranking")
                         antique_df_llm = pd.concat([antique_df_llm, df_llm], ignore_index=True)
                     elif 'neurips' in file.lower() and type in file.lower():
                         for x in data:
@@ -281,7 +294,7 @@ def getfeature_data(type):
 def getcombine_features(type):
     df_all = []
     feature_dfs = getfeature_data(type)
-    raw_dfs, df_comp = getrawdata(type, 1)
+    raw_dfs, df_comp = getrawdata(type, True, 1)
     
     # helpsteer2
     temp = df_comp[0].merge(feature_dfs[0], on=["prompt", "response"])
@@ -298,6 +311,7 @@ def getcombine_features(type):
     temp_comp= feature_dfs[2].drop(columns=["label", "ranking"], axis=1)
     temp = df_comp[2].merge(temp_comp, on=["docs", "query"])
     temp = temp.drop(columns=["query", "docs", "group_id"], axis=1)
+    temp["ranking"] = temp["ranking"].apply(normalize_ranking)
     temp = expand_ranking_column(temp, "ranking")
     df_all.append(temp)
 

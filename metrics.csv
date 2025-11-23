@@ -1,0 +1,85 @@
+Task,Model,Dataset,Accuracy,F1
+Judgement Features,Logistic Regression,helpsteer2,0.8187951807228916,0.8212927756653993
+Judgement Features,Random Forest,helpsteer2,0.88,0.8758104738154614
+Judgement Features,Light gbm,helpsteer2,0.8848192771084338,0.8803204807210816
+Judgement Features,Logistic Regression,helpsteer3,0.5347222222222222,0.5361028684470821
+Judgement Features,Random Forest,helpsteer3,0.5086805555555556,0.5764378875347445
+Judgement Features,Light gbm,helpsteer3,0.5543154761904762,0.6720204416864392
+Judgement Features,Logistic Regression,antique,0.5314566728845176,0.5481602616516762
+Judgement Features,Random Forest,antique,0.5314566728845176,0.5481602616516762
+Judgement Features,Light gbm,antique,0.5309479396303205,0.5474476439790575
+Judgement Features,Logistic Regression,neurips,0.7511729222520107,0.7260653016048699
+Judgement Features,Random Forest,neurips,0.8711461126005362,0.859799453053783
+Judgement Features,Light gbm,neurips,0.8703083109919572,0.8588621444201313
+Augmented features,Logistic Regression,helpsteer2,0.8580395943988411,0.8568646543330087
+Augmented features,Random Forest,helpsteer2,0.9063254466441333,0.9036742800397219
+Augmented features,Light gbm,helpsteer2,0.9222597778850796,0.9218067022826615
+Augmented features,Logistic Regression,helpsteer3,0.5325150732127476,0.5212789415656008
+Augmented features,Random Forest,helpsteer3,0.5777347114556417,0.6370534888025171
+Augmented features,Light gbm,helpsteer3,0.5757967269595177,0.5948169477581242
+Augmented features,Logistic Regression,antique,0.5413061916878711,0.5458515283842795
+Augmented features,Random Forest,antique,0.6417302798982188,0.6757752533005834
+Augmented features,Light gbm,antique,0.6681933842239186,0.7095337095337095
+Augmented features,Logistic Regression,neurips,0.7357697772135062,0.7126041855036249
+Augmented features,Random Forest,neurips,0.8591109700432272,0.8457790462009348
+Augmented features,Light gbm,neurips,0.8625192708805659,0.8507286333202048
+GroupSize_1,Logistic Regression,helpsteer2,0.8187951807228916,0.8212927756653993
+GroupSize_1,Random Forest,helpsteer2,0.88,0.8758104738154614
+GroupSize_1,Light gbm,helpsteer2,0.8187951807228916,0.8212927756653993
+GroupSize_1,Logistic Regression,helpsteer3,0.5347222222222222,0.5361028684470821
+GroupSize_1,Random Forest,helpsteer3,0.5086805555555556,0.5764378875347445
+GroupSize_1,Light gbm,helpsteer3,0.5347222222222222,0.5361028684470821
+GroupSize_1,Logistic Regression,antique,0.5309479396303205,0.5474476439790575
+GroupSize_1,Random Forest,antique,0.5309479396303205,0.5474476439790575
+GroupSize_1,Light gbm,antique,0.5309479396303205,0.5474476439790575
+GroupSize_1,Logistic Regression,neurips,0.7511729222520107,0.7260653016048699
+GroupSize_1,Random Forest,neurips,0.8711461126005362,0.859799453053783
+GroupSize_1,Light gbm,neurips,0.7511729222520107,0.7260653016048699
+GroupSize_2,Logistic Regression,helpsteer2,0.8448940269749519,0.8385155466399198
+GroupSize_2,Random Forest,helpsteer2,0.9499036608863198,0.9498069498069498
+GroupSize_2,Light gbm,helpsteer2,0.8448940269749519,0.8385155466399198
+GroupSize_2,Logistic Regression,helpsteer3,0.555280118988597,0.5340259740259741
+GroupSize_2,Random Forest,helpsteer3,0.5666831928606841,0.6196692776327241
+GroupSize_2,Light gbm,helpsteer3,0.555280118988597,0.5340259740259741
+GroupSize_2,Logistic Regression,antique,0.5489996609020007,0.5385149201943095
+GroupSize_2,Random Forest,antique,0.5530688368938623,0.5381920112123336
+GroupSize_2,Light gbm,antique,0.5489996609020007,0.5385149201943095
+GroupSize_2,Logistic Regression,neurips,0.8056300268096515,0.7906137184115524
+GroupSize_2,Random Forest,neurips,0.9480563002680965,0.9470809149880506
+GroupSize_2,Light gbm,neurips,0.8056300268096515,0.7906137184115524
+GroupSize_4,Logistic Regression,helpsteer2,0.925,0.9221556886227545
+GroupSize_4,Random Forest,helpsteer2,0.9769230769230769,0.9769230769230769
+GroupSize_4,Light gbm,helpsteer2,0.925,0.9221556886227545
+GroupSize_4,Logistic Regression,helpsteer3,0.5490584737363726,0.4927536231884058
+GroupSize_4,Random Forest,helpsteer3,0.5906838453914767,0.6262443438914027
+GroupSize_4,Light gbm,helpsteer3,0.5490584737363726,0.4927536231884058
+GroupSize_4,Logistic Regression,antique,0.5552542372881356,0.5549525101763908
+GroupSize_4,Random Forest,antique,0.5586440677966101,0.5657104736490994
+GroupSize_4,Light gbm,antique,0.5552542372881356,0.5549525101763908
+GroupSize_4,Logistic Regression,neurips,0.8806970509383378,0.8708272859216255
+GroupSize_4,Random Forest,neurips,0.982573726541555,0.9826666666666667
+GroupSize_4,Light gbm,neurips,0.8806970509383378,0.8708272859216255
+GroupSize_8,Logistic Regression,helpsteer2,0.9730769230769231,0.9727626459143969
+GroupSize_8,Random Forest,helpsteer2,0.9730769230769231,0.972972972972973
+GroupSize_8,Light gbm,helpsteer2,0.9730769230769231,0.9727626459143969
+GroupSize_8,Logistic Regression,helpsteer3,0.5762376237623762,0.5265486725663717
+GroupSize_8,Random Forest,helpsteer3,0.6099009900990099,0.6424682395644283
+GroupSize_8,Light gbm,helpsteer3,0.5762376237623762,0.5265486725663717
+GroupSize_8,Logistic Regression,antique,0.6016260162601627,0.6161879895561357
+GroupSize_8,Random Forest,antique,0.6056910569105691,0.6235446313065977
+GroupSize_8,Light gbm,antique,0.6016260162601627,0.6161879895561357
+GroupSize_8,Logistic Regression,neurips,0.9343163538873994,0.9300998573466477
+GroupSize_8,Random Forest,neurips,0.9785522788203753,0.979002624671916
+GroupSize_8,Light gbm,neurips,0.9343163538873994,0.9300998573466477
+GroupSize_16,Logistic Regression,helpsteer2,1.0,1.0
+GroupSize_16,Random Forest,helpsteer2,0.9692307692307692,0.9682539682539683
+GroupSize_16,Light gbm,helpsteer2,1.0,1.0
+GroupSize_16,Logistic Regression,helpsteer3,0.6047430830039525,0.5098039215686274
+GroupSize_16,Random Forest,helpsteer3,0.6521739130434783,0.6811594202898551
+GroupSize_16,Light gbm,helpsteer3,0.6047430830039525,0.5098039215686274
+GroupSize_16,Logistic Regression,antique,0.6135135135135135,0.6323907455012854
+GroupSize_16,Random Forest,antique,0.6297297297297297,0.6478149100257069
+GroupSize_16,Light gbm,antique,0.6135135135135135,0.6323907455012854
+GroupSize_16,Logistic Regression,neurips,0.9812834224598931,0.9809264305177112
+GroupSize_16,Random Forest,neurips,0.9598930481283422,0.961439588688946
+GroupSize_16,Light gbm,neurips,0.9812834224598931,0.9809264305177112
