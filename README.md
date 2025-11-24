@@ -82,7 +82,7 @@ data/
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd llm-judgment-detection
+cd Judgment-Detection
 ```
 
 2. Install dependencies:
@@ -141,9 +141,6 @@ pip install -r requirements.txt
   - Helpsteer3: Merges -3/-2/-1→-1, 1/2/3→1
 - ✅ **Dimension Number Analysis**: Tests 1, 3, 5 dimensions for Helpsteer2 and Neurips
 - ✅ **Visualization**: Generates plots similar to Figure 6 in the paper
-
-### Task 5: Bonus (Optional)
-- ⬜ Bias quantification using J-Detector interpretability (Section 6.2)
 
 ## 💻 Usage
 
@@ -266,15 +263,6 @@ Contributions are welcome! Please:
 2. Create a feature branch
 3. Commit your changes
 4. Open a pull request
-
-## 📄 License
-
-[Add your license information here]
-
-## 📧 Contact
-
-[Add contact information here]
-
 ---
 
 **Last Updated**: November 2024
