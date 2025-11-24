@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 
-def plot_all(datasets, results_acc, results_f1, k):
+def plot_all(datasets, results_acc, results_f1, k, isAugmentedFeature):
     """
     Automatically generate 6 plots:
       - Accuracy for each ML model
@@ -9,8 +9,7 @@ def plot_all(datasets, results_acc, results_f1, k):
 
     models = {
         "Logistic Regression": ("lr", "LR"),
-        "Random Forest": ("rf", "RF"),
-        "LightGBM": ("lg", "LGBM")
+        "Random Forest": ("rf", "RF")
     }
 
     metrics = {
@@ -38,9 +37,12 @@ def plot_all(datasets, results_acc, results_f1, k):
         plt.legend(fontsize=10)
         plt.tight_layout()
 
-        filename = f"{metric_name.lower()}_{model_name.replace(' ', '_').lower()}.png"
+        if isAugmentedFeature:
+            filename = f"{metric_name.lower()}_{model_name.replace(' ', '_').lower()}_aug.png"
+        else:
+            filename = f"{metric_name.lower()}_{model_name.replace(' ', '_').lower()}.png"
         plt.savefig(filename, dpi=300, bbox_inches="tight")
-        plt.show()
+        # plt.show()
 
         print(f"Saved: {filename}")
 
